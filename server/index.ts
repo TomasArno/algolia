@@ -1,4 +1,5 @@
 import * as express from "express";
+import * as path from "path";
 
 import { sequelize } from "./db";
 import { Shop } from "./db/models";
@@ -36,17 +37,6 @@ app.get("/shops/:id", async (req, res) => {
   res.json(shop);
 });
 
-app.get("/shops-near", async (req, res) => {
-  const { lat, lng } = req.query;
-
-  const shopsFound = await index.search("", {
-    aroundLatLng: `${lat}, ${lng}`,
-    aroundRadius: 10000,
-  });
-
-  res.json(shopsFound.hits);
-});
-
 app.put("/shops/:id", async (req, res) => {
   const shop = await Shop.update(req.body, { where: { id: req.params.id } });
 
@@ -59,6 +49,19 @@ app.put("/shops/:id", async (req, res) => {
 
   res.json(shop);
 });
+
+app.get("/nearby-shops", async (req, res) => {
+  const { lat, lng } = req.query;
+
+  const { hits } = await index.search("", {
+    aroundLatLng: `${lat}, ${lng}`,
+    aroundRadius: 10000,
+  });
+
+  res.json(hits || []);
+});
+
+app.get("*", express.static(path.join(__dirname, "../public")));
 
 app.listen(port, () => {
   console.log(`running server on port ${port}`);
