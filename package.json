@@ -4,15 +4,13 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev:api": "nodemon --watch './server/index.ts' --exec 'ts-node ./server/dev.ts'",
-    "dev:front": "parcel serve ./client/index.html"
+    "dev:api": "nodemon --watch './server/index.ts' --exec 'ts-node ./server/dev.ts'"
   },
   "dependencies": {
     "algoliasearch": "^4.19.1",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "nodemon": "^3.0.1",
-    "parcel": "^2.9.3",
     "sequelize": "^6.32.1",
     "typescript": "^5.1.6"
   },
